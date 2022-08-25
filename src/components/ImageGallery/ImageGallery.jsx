@@ -6,6 +6,7 @@ import { ThreeDots } from 'react-loader-spinner';
 import { searchPosts } from 'shared/api/posts';
 import ImageGalleryItem from 'components/ImageGalleryItem/ImageGalleryItem';
 import Button from 'components/Button/Button';
+import Modal from 'components/Modal/Modal';
 
 class ImageGallery extends Component {
   state = {
@@ -13,12 +14,28 @@ class ImageGallery extends Component {
     loader: false,
     error: null,
     page: 1,
+    showModal: false,
   };
 
   async componentDidUpdate(prevProps, prevState) {
     const { page } = this.state;
 
-    if (prevProps.search !== this.props.search || page > prevState.page) {
+    if (prevProps.search !== this.props.search) {
+      this.setState({ loader: true });
+
+      try {
+        const data = await searchPosts(this.props.search, page);
+        this.setState(() => ({
+          items: [...data.hits],
+        }));
+      } catch (error) {
+        this.setState({ error });
+      } finally {
+        this.setState({ loader: false });
+      }
+    }
+
+    if (page > prevState.page) {
       this.setState({ loader: true });
 
       try {
@@ -40,17 +57,20 @@ class ImageGallery extends Component {
     }));
   };
 
+  getModalImage = showModal => {
+    this.setState({ showModal });
+  };
+
   render() {
-    const { handleLoadMore } = this;
-    const { items, loader } = this.state;
-    const { toggleModal } = this.props;
+    const { handleLoadMore, getModalImage } = this;
+    const { items, loader, showModal } = this.state;
 
     const isItems = Boolean(items.length);
 
     return (
       <>
-        <ul className={styles.ImageGallery} onClick={toggleModal}>
-          <ImageGalleryItem items={items} />
+        <ul className={styles.ImageList}>
+          <ImageGalleryItem items={items} onClickImage={getModalImage} />
         </ul>
         <div className={styles.threedots}>
           <ThreeDots
@@ -66,6 +86,12 @@ class ImageGallery extends Component {
         </div>
 
         {isItems && <Button onClickLoadMore={handleLoadMore} />}
+
+        {showModal && (
+          <Modal onClose={getModalImage}>
+            <img src={showModal} alt="" />
+          </Modal>
+        )}
       </>
     );
   }
