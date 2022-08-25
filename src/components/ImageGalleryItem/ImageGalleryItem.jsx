@@ -2,6 +2,7 @@ import styles from './ImageGalleryItem.module.scss';
 
 import { nanoid } from 'nanoid';
 import { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class ImageGalleryItem extends Component {
   state = {};
@@ -31,3 +32,14 @@ class ImageGalleryItem extends Component {
 }
 
 export default ImageGalleryItem;
+
+ImageGalleryItem.propTypes = {
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      webformatURL: PropTypes.string.isRequired,
+      largeImageURL: PropTypes.string.isRequired,
+      tags: PropTypes.string.isRequired,
+    })
+  ),
+};

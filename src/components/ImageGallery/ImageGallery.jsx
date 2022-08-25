@@ -1,12 +1,12 @@
 import styles from './ImageGallery.module.scss';
 
 import { Component } from 'react';
-import { ThreeDots } from 'react-loader-spinner';
 
 import { searchPosts } from 'shared/api/posts';
 import ImageGalleryItem from 'components/ImageGalleryItem/ImageGalleryItem';
 import Button from 'components/Button/Button';
 import Modal from 'components/Modal/Modal';
+import Loader from 'components/Loader/Loader';
 
 class ImageGallery extends Component {
   state = {
@@ -72,18 +72,8 @@ class ImageGallery extends Component {
         <ul className={styles.ImageList}>
           <ImageGalleryItem items={items} onClickImage={getModalImage} />
         </ul>
-        <div className={styles.threedots}>
-          <ThreeDots
-            height="40"
-            width="40"
-            radius="9"
-            color="#4fa94d"
-            ariaLabel="three-dots-loading"
-            wrapperStyle={{}}
-            wrapperClassName=""
-            visible={loader}
-          />
-        </div>
+
+        <Loader loader={loader} />
 
         {isItems && <Button onClickLoadMore={handleLoadMore} />}
 

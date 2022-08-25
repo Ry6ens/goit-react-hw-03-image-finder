@@ -1,6 +1,7 @@
 import styles from './Searchbar.module.scss';
 
 import { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class Searchbar extends Component {
   handleSubmit = e => {
@@ -39,3 +40,7 @@ class Searchbar extends Component {
 }
 
 export default Searchbar;
+
+Searchbar.propTypes = {
+  getSearch: PropTypes.func,
+};
