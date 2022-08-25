@@ -7,6 +7,7 @@ import ImageGalleryItem from 'components/ImageGalleryItem/ImageGalleryItem';
 import Button from 'components/Button/Button';
 import Modal from 'components/Modal/Modal';
 import Loader from 'components/Loader/Loader';
+import PropTypes from 'prop-types';
 
 class ImageGallery extends Component {
   state = {
@@ -79,7 +80,7 @@ class ImageGallery extends Component {
 
         {showModal && (
           <Modal onClose={getModalImage}>
-            <img src={showModal} alt="" />
+            <img src={showModal} alt="img" />
           </Modal>
         )}
       </>
@@ -88,3 +89,7 @@ class ImageGallery extends Component {
 }
 
 export default ImageGallery;
+
+ImageGallery.propTypes = {
+  search: PropTypes.string.isRequired,
+};
