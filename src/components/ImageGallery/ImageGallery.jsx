@@ -25,9 +25,11 @@ class ImageGallery extends Component {
       this.setState({ loader: true });
 
       try {
-        const data = await searchPosts(this.props.search, page);
+        const data = await searchPosts(this.props.search, 1);
+        console.log(page);
         this.setState(() => ({
           items: [...data.hits],
+          page: 1,
         }));
       } catch (error) {
         this.setState({ error });
