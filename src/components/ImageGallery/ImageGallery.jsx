@@ -26,7 +26,6 @@ class ImageGallery extends Component {
 
       try {
         const data = await searchPosts(this.props.search, 1);
-        console.log(page);
         this.setState(() => ({
           items: [...data.hits],
           page: 1,
